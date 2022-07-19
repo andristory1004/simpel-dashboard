@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Operator;
+use App\Models\Paslon;
 use Illuminate\Http\Request;
 
-class OperatorController extends Controller
+class PaslonController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,7 @@ class OperatorController extends Controller
      */
     public function index()
     {
-        $data = Operator::all();
-
-        return view('pages.operator', ['data' => $data]);
+        return view('pages.paslon');
     }
 
     /**
@@ -26,7 +24,7 @@ class OperatorController extends Controller
      */
     public function create()
     {
-        return view('form.input-operator');
+        return view('form.input-paslon');
     }
 
     /**
@@ -38,16 +36,21 @@ class OperatorController extends Controller
     public function store(Request $request)
     {
         $validasi = $request->validate([
-            'nama' => 'required',
-            'email' => 'required',
-            'no_telepon' => 'required',
-            'hak_akses' => 'required',
-            'status' => 'required',
+            'nama_ketua' => 'required',
+            'nama_wakil' => 'required',
+            'no_urut' => 'required',
+            'image' => 'image|file|max:2048',
         ]);
-        $validasi ['riwayat'] ="";
 
-        Operator::create($validasi);
-        return redirect('operator');
+        // $fileName = time().$request->file('image')->getClientOriginalName();
+        // $path = $request->file('image')->store('images/paslon');
+        // $validasi['image']=$path;
+        if($request->file('image')){
+            $validasi['image'] = $request->file('image')->store('images/paslon');
+        }
+        Paslon::create($validasi);
+
+        return redirect('paslon');
     }
 
     /**
@@ -90,9 +93,8 @@ class OperatorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Operator $operator)
+    public function destroy($id)
     {
-        $operator->delete();
-        return redirect('operator');
+        //
     }
 }

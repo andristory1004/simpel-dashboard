@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TpsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SaksiController;
+use App\Http\Controllers\PaslonController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\DashboardController;
@@ -33,19 +34,15 @@ Route::resource('register', RegisterController::class);
 
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
+Route::resource('tps', TpsController::class);
 
-Route::get('tps',[TpsController::class, 'index'])->middleware('auth')->name('tps');
-Route::post('tps.store',[TpsController::class, 'store'])->middleware('auth')->name('tps.store');
-Route::post('tps.destroy',[TpsController::class, 'destroy'])->middleware('auth')->name('tps.destroy');
-Route::get('tps.edit',[TpsController::class, 'edit'])->middleware('auth')->name('tps.edit');
 
 Route::post('/get-kabupaten',[TpsController::class, 'getKabupaten'])->name('/get-kabupaten');
 Route::post('/get-kecamatan',[TpsController::class, 'getKecamatan'])->name('/get-kecamatan');
 Route::post('/get-kelurahan',[TpsController::class, 'getKelurahan'])->name('/get-kelurahan');
 
+Route::resource('paslon', PaslonController::class);
 
-Route::get('operator', [OperatorController::class,'index'])->middleware('auth')->name('operator');
-Route::get('operator.store', [OperatorController::class,'store'])->middleware('auth')->name('operator.store');
+Route::resource('operator', OperatorController::class);
 
-Route::get('saksi',[SaksiController::class, 'index'])->middleware('auth')->name('saksi');
-Route::post('saksi.store',[SaksiController::class, 'store'])->middleware('auth')->name('saksi.store');
+Route::resource('saksi', SaksiController::class);

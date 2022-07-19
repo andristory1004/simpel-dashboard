@@ -45,14 +45,14 @@
                     <p>SIMPEL</p>
                 </div>
                 <div class="hidden space-x-5 md:block">
-                    <a href="">Beranda</a>
-                    <a href="#tentang">Tentang</a>
-                    <a href="">Fitur</a>
-                    <a href="">Kontak</a>
+                    <a href="" class="transition duration-200 ease-in-out hover:text-green">Beranda</a>
+                    <a href="#tentang" class="transition duration-200 ease-in-out hover:text-green">Tentang</a>
+                    <a href="" class="transition duration-200 ease-in-out hover:text-green">Fitur</a>
+                    <a href="" class="transition duration-200 ease-in-out hover:text-green">Kontak</a>
                 </div>
                 <div class="hidden space-x-5 md:block">
-                    <a href={{route('login')}} class="transition duration-200 ease-in-out hover:text-blue-700">Masuk</a>
-                    <a href={{route('register.index')}}>Daftar</a>
+                    <a href={{route('login')}} class="transition duration-200 ease-in-out hover:text-green">Masuk</a>
+                    <a href={{route('register.index')}}class="transition duration-200 ease-in-out hover:text-green">Daftar</a>
                 </div>
                 {{-- Navbar Mobile --}}
                 <button type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false"
@@ -63,13 +63,13 @@
                 </button>
             </div>
             <div id="collapse" class="w-full pt-3 mt-5 space-y-3 text-xl text-white border-t-2 collapse font-acme">
-                <a href="" class="block">Home</a>
-                <a href="" class="block">Tentang</a>
-                <a href="" class="block">Fitur</a>
-                <a href="" class="block">Kontak</a>
+                <a href="" class="block transition duration-200 ease-in-out hover:text-green">Home</a>
+                <a href="" class="block transition duration-200 ease-in-out hover:text-green">Tentang</a>
+                <a href="" class="block transition duration-200 ease-in-out hover:text-green">Fitur</a>
+                <a href="" class="block transition duration-200 ease-in-out hover:text-green">Kontak</a>
                 <div class="space-x-5 text-center">
-                    <a href="" >Masuk</a>
-                    <a href={{route('register.index')}} >Daftar</a>
+                    <a href={{route('login')}} class="transition duration-200 ease-in-out hover:text-green">Masuk</a>
+                    <a href={{route('register.index')}} class="transition duration-200 ease-in-out hover:text-green">Daftar</a>
                 </div>
             </div>
         </div>

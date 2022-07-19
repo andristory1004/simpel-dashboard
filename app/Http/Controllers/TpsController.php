@@ -69,8 +69,11 @@ class TpsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        
+    {   
+        // Get Data Provinsi
+        $provinces = Province::all();
+
+        return view('form.input-tps', compact('provinces'));
     }
 
     /**
@@ -118,10 +121,11 @@ class TpsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $data = Tps::findOrFail($request->get('id'));
-        echo json_encode($data);
+        $tps = Tps::find($id);
+
+        return view('form.edit-tps', compact('tps'));
     }
 
     /**
@@ -142,9 +146,9 @@ class TpsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Tps $tps)
     {
-        Tps::destroy($id);
-        return redirect('tps')->with('susscess', 'Hapus Data Berhasil');
+        $tps->delete();
+        return redirect('tps');
     }
 }

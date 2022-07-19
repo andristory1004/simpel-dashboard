@@ -10,6 +10,10 @@
             <i class="fas fa-plus"></i>
             Tambah TPS
         </button>
+        {{-- <a href={{route('tps.create')}} 
+        class="px-3 py-2 text-sm font-bold text-white transition duration-150 ease-in-out rounded-md shadow-md bg-blue hover:bg-green md:text-lg lg:txt-lg hover:text-black">
+            + Tambah Data
+        </a> --}}
     </div>
 </div>
 
@@ -61,15 +65,18 @@
                     </button>
                 </td>
                 <td class="px-4 py-3 text-center border-b-2 border-r-2 border-black">
-                    <button class="text-center" data-id={{$tps->id}} data-bs-target="#editTPS" data-bs-toggle="modal" type="button">
+                    {{-- <button class="text-center" data-id={{$tps->id}} data-bs-target="#editTPS" data-bs-toggle="modal" type="button">
                         Edit
-                    </button>
+                    </button> --}}
+                    <a href={{route('tps.edit', $tps->id)}}>
+                        edit
+                    </a>
                 </td>
                 <td class="px-4 py-3 text-left border-b-2 border-black">
-                    
-                    <form action={{route('tps.destroy', )}} method="post">
+                    <form action={{route('tps.destroy', $tps->id)}} method="post">
                         @csrf
-                        <button type="submit">
+                        @method('delete')
+                        <button type="submit" onclick="return confirm('Apakah Anda yakin mau hapus..? ')">
                             hapus
                         </button>
                     </form>
@@ -83,37 +90,6 @@
 
 @include('modals.input-tps')
 @include('modals.edit-tps')
-
-
-{{-- Edit Data at Modal --}}
-<script src="{{ asset('public/assets/js/jquery-3.1.1.min.js') }}"></script>
-<script>
-    $(document).ready(function() {
-        //edit data
-        $('.edit').on("click",function() {
-            var id = $(this).attr('data-id');
-            $.ajax({
-                url : "{{route('tps.edit')}}?id="+id,
-                type: "GET",
-                dataType: "JSON",
-                success: function(data)
-                {
-                    $('#id').val(data.id);
-                    $('#provinsi').val(data.provinsi_id);
-                    $('#kabupaten_id').val(data.kabupaten_id);
-                    $('#kecamatan_id').val(data.kecamatan_id);
-                    $('#kelurahan_id').val(data.kelurahan_id);
-                    $('#no_tps').val(data.no_tps);
-                    $('#aku').val(data.kebutuhan);
-                    $('#keterangan').val(data.keterangan);
-                    
-                    $('#modal-edit').modal('show');
-                }
-            });
-        });
-
-    });
-</script>
 
 {{-- Data Wilayah --}}
 <script>

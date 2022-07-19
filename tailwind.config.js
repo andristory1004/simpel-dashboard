@@ -18,7 +18,16 @@ module.exports = {
         'blue': '#0000ff',
         'green': '#00CBFF',
         'red': '#ff0000'
+      },
+      width: {
+        '250': '250px'
+      },
+      height: {
+        '400': '400px',
+        '320': '320px',
+        '80': '80px'
       }
+
     },
   },
   plugins: [],

@@ -4,12 +4,16 @@
 <div class="bg-blue">
     <div class="flex items-center justify-between px-5 py-3 bg-green rounded-tl-3xl">
         <h1 class="text-2xl font-bold text-black md:text-3xl lg:text-3xl font-oswald">Daftar Operator</h1>
-        <button
+        {{-- <button
         class="px-3 py-2 text-sm font-bold text-white transition duration-150 ease-in-out rounded-md shadow-md bg-blue hover:bg-green md:text-lg lg:txt-lg hover:text-black"
             data-bs-target="#modal" data-bs-toggle="modal">
             <i class="fas fa-plus"></i>
             Tambah Operator
-        </button>
+        </button> --}}
+        <a href={{route('operator.create')}} class="px-3 py-2 text-sm font-bold text-white transition duration-150 ease-in-out rounded-md shadow-md bg-blue hover:bg-green md:text-lg lg:txt-lg hover:text-black">
+            <i class="fas fa-plus"></i>
+            Tambah Operator
+        </a>
     </div>
 </div>
 <div class="p-3 overflow-auto">
@@ -41,8 +45,17 @@
                         type="button">{{$operator->hak_akses}}</button></td>
                 <td class="px-4 py-3 border-b-2 border-r-2 border-black"><button class="text-left" data-bs-target="#editData" data-bs-toggle="modal"
                         type="button">{{$operator->riwayat}}</button></td>
-                <td class="px-4 py-3 text-center border-b-2 border-r-2 border-black"><button class="text-center" data-bs-target="#editData" data-bs-toggle="modal"
+                <td class="px-4 py-3 border-b-2 border-r-2 border-black"><button class="text-left" data-bs-target="#editData" data-bs-toggle="modal"
                         type="button">{{$operator->status}}</button></td>
+                <td class="px-4 py-3 text-center border-b-2 border-r-2 border-black">
+                    <form action={{route('operator.destroy', $operator->id)}} method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit">
+                            Hapus
+                        </button>
+                    </form>
+                </td>
             </tr>
             @endforeach
         </tbody>

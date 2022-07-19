@@ -4,12 +4,16 @@
 <div class="bg-blue">
     <div class="flex items-center justify-between px-5 py-3 bg-green rounded-tl-3xl">
         <h1 class="text-2xl font-bold text-black md:text-3xl lg:text-3xl font-oswald">Daftar Saksi</h1>
-        <button
+        {{-- <button
         class="px-3 py-2 text-sm font-bold text-white transition duration-150 ease-in-out rounded-md shadow-md bg-blue hover:bg-green md:text-lg lg:txt-lg hover:text-black"
             data-bs-target="#modal" data-bs-toggle="modal">
             <i class="fas fa-plus"></i>
             Tambah Saksi
-        </button>
+        </button> --}}
+        <a href={{route('saksi.create')}} class="px-3 py-2 text-sm font-bold text-white transition duration-150 ease-in-out rounded-md shadow-md bg-blue hover:bg-green md:text-lg lg:txt-lg hover:text-black">
+            <i class="fas fa-plus"></i>
+            Tambah Saksi
+        </a>
     </div>
 </div>
 
@@ -18,6 +22,7 @@
         <thead class="text-white bg-gray-800 border border-black">
             <tr class="text-sm font-semibold text-center uppercas">
                 <th class="w-auto px-4 py-2 border-r border-white">No</a></th>
+                <th class="w-48 px-4 py-2 border-r border-white">Aksi</th>
                 <th class="w-48 px-4 py-2 border-r border-white">NIK</th>
                 <th class="w-64 px-4 py-2 border-r border-white">Nama</th>
                 <th class="w-64 px-4 py-2 border-r border-white">Email</th>
@@ -34,6 +39,15 @@
             @foreach ($data as $saksi)
             <tr class="text-xs md:text-sm lg:text-sm">
                 <td class="px-4 py-2 text-center border-b border-r border-black">{{$no++}}</td>
+                <td class="px-4 py-2 border-b border-r border-black">
+                    <form action={{route('saksi.destroy', $saksi->id)}} method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit">
+                            hapus
+                        </button>
+                    </form>
+                </td>
                 <td class="px-4 py-2 border-b border-r border-black"><button class="text-left"
                         data-bs-target="#editData" data-bs-toggle="modal" type="button">{{$saksi->nik}}</button>
                 </td>
@@ -157,4 +171,67 @@
     </div>
 </div>
 {{-- End Modal Input TPS --}}
+
+{{-- Data Wilayah --}}
+<script>
+    $(function () {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
+
+    $('#provinsi').on('change', function () {
+        let id_provinsi = $('#provinsi').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('/get-kabupaten')}}",
+            data: { id_provinsi: id_provinsi },
+            cache: false,
+
+            success: function (msg) {
+                $('#kabupaten').html(msg);
+            },
+            error: function (data) {
+                console.log('error:', data);
+            }
+        })
+    })
+
+    $('#kabupaten').on('change', function () {
+        let id_kabupaten = $('#kabupaten').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('/get-kecamatan')}}",
+            data: { id_kabupaten: id_kabupaten },
+            cache: false,
+
+            success: function (msg) {
+                $('#kecamatan').html(msg);
+            },
+            error: function (data) {
+                console.log('error:', data);
+            }
+        })
+    })
+
+    $('#kecamatan').on('change', function () {
+        let id_kecamatan = $('#kecamatan').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('/get-kelurahan')}}",
+            data: { id_kecamatan: id_kecamatan },
+            cache: false,
+
+            success: function (msg) {
+                $('#kelurahan').html(msg);
+            },
+            error: function (data) {
+                console.log('error:', data);
+            }
+        })
+    })
+});
+</script>
 @endsection

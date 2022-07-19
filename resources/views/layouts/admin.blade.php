@@ -20,6 +20,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap" rel="stylesheet">
 
     {{-- Pie Chart --}}
     <script src="https://cdn.anychart.com/js/8.0.1/anychart-core.min.js"></script>
@@ -49,17 +51,17 @@
                     <i class="mr-3 fas fa-tachometer-alt"></i>
                     Dashboard
                 </a>
-                <a href={{route('tps')}}
+                <a href={{route('tps.index')}}
                     class="{{ request()->is('tps') ? 'text-black bg-white rounded-l-full font-bold' : '' }} flex items-center py-3 pl-3 nav-item ml-2 hover:text-black hover:bg-white hover:rounded-l-full my-2">
                     <i class="mr-3 fas fa-table"></i>
                     Data TPS
                 </a>
-                <a href=""
+                <a href={{route('paslon.index')}}
                     class="{{ request()->is('paslon') ? 'text-black bg-white rounded-l-full font-bold' : '' }} flex items-center py-3 pl-3 nav-item ml-2 hover:text-black hover:bg-white hover:rounded-l-full my-2">
                     <i class="mr-3 fas fa-user-tie"></i>
                     Pasangan Calon
                 </a>
-                <a href={{route('operator')}}
+                <a href={{route('operator.index')}}
                     class="{{ request()->is('operator') ? 'text-black bg-white rounded-l-full font-bold' : '' }} flex items-center py-3 pl-3 nav-item ml-2 hover:text-black hover:bg-white hover:rounded-l-full my-2">
                     <i class="mr-3 fas fa-users"></i>
                     Operator
@@ -83,7 +85,7 @@
                     <li>
                         <a
                             class="block w-full px-4 py-2 text-sm text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-100"
-                            href={{route('saksi')}}>
+                            href={{route('saksi.index')}}>
                             List Saksi
                         </a>
                     </li>
@@ -171,16 +173,17 @@
 
     <div class="flex flex-col w-full h-screen overflow-y-hidden">
         <!-- Desktop Header -->
-        <header class="items-center w-full px-6 py-2 bg-blue lg:flex ">
+        <header class="items-center w-full px-6 py-2 bg-blue lg:flex hidden">
             <div class="w-1/2"></div>
             <div class="w-full">
                 <h1 class="text-3xl text-white font-lobster">Sistem Pemenangan Pemilu</h1>
             </div>
+            @auth
             <div x-data="{ isOpen: false }" class="relative flex justify-end w-1/2">
                 <button @click="isOpen = !isOpen" class="flex items-center space-x-3">
                     <img src="https://mdbcdn.b-cdn.net/img/new/avatars/1.webp" class="w-10 rounded-full shadow-lg"
                         alt="Avatar" />
-                    <h1 class="text-white font-lobster">Andri Ardiansyah</h1>
+                    <h1 class="text-white font-lobster">{{auth()->user()->name}}</h1>
                     <i class="text-white fas fa-caret-down"></i>
                 </button>
                 <button x-show="isOpen" @click="isOpen = false"
@@ -196,6 +199,7 @@
                     <a href={{route('logout')}} class="block w-full px-4 py-2 text-sm font-bold text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-100">Keluar</a>
                 </div>
             </div>
+            @endauth
         </header>
 
         <!-- Mobile Header & Nav -->
@@ -224,7 +228,7 @@
                         <i class="mr-3 fas fa-table"></i>
                         Data TPS
                     </a>
-                    <a href=""
+                    <a href={{route('paslon.index')}}
                         class="{{request()->is('paslon')? 'opacity-100 font-bold' : ''}} flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 hover:font-bold nav-item">
                         <i class="mr-3 fas fa-user-tie"></i>
                         Pasangan Calon
@@ -427,6 +431,67 @@
             }
         });
     </script>
+{{-- Data Wilayah --}}
+<script>
+    $(function () {
+    $.ajaxSetup({
+        headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+    });
 
+    $('#provinsi').on('change', function () {
+        let id_provinsi = $('#provinsi').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('/get-kabupaten')}}",
+            data: { id_provinsi: id_provinsi },
+            cache: false,
+
+            success: function (msg) {
+                $('#kabupaten').html(msg);
+            },
+            error: function (data) {
+                console.log('error:', data);
+            }
+        })
+    })
+
+    $('#kabupaten').on('change', function () {
+        let id_kabupaten = $('#kabupaten').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('/get-kecamatan')}}",
+            data: { id_kabupaten: id_kabupaten },
+            cache: false,
+
+            success: function (msg) {
+                $('#kecamatan').html(msg);
+            },
+            error: function (data) {
+                console.log('error:', data);
+            }
+        })
+    })
+
+    $('#kecamatan').on('change', function () {
+        let id_kecamatan = $('#kecamatan').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "{{route('/get-kelurahan')}}",
+            data: { id_kecamatan: id_kecamatan },
+            cache: false,
+
+            success: function (msg) {
+                $('#kelurahan').html(msg);
+            },
+            error: function (data) {
+                console.log('error:', data);
+            }
+        })
+    })
+});
+</script>
 </body>
 </html>

@@ -27,9 +27,10 @@ class SaksiController extends Controller
      */
     public function create()
     {
-        //
+        $provinces = Province::all();
+        return view('form.input-saksi', compact('provinces'));
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -41,7 +42,6 @@ class SaksiController extends Controller
         $message =  [
             'required' => 'Tabel tidak boleh kosong..!'
         ];
-
         $validasi =$request->validate([
             'nik'=> 'required|string|min:16',
             'nama' => 'required',
@@ -98,8 +98,9 @@ class SaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Saksi $saksi)
     {
-        //
+        $saksi->delete();
+        redirect('saksi');
     }
 }
